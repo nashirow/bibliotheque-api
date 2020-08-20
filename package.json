@@ -1,0 +1,11 @@
+{
+  "name": "api-bibliotheque",
+  "version": "1.0.0",
+  "description": "practicing Node.js by developing this API",
+  "main": "app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Nashiro",
+  "license": "ISC"
+}
