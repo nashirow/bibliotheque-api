@@ -1,10 +1,9 @@
-
 class ArgumentException {
 
     constructor(msgErrors){
         this.msgErrors = msgErrors;
     }//constructor
 
-}//Exception()
+}//ArgumentException
 
 module.exports = ArgumentException;

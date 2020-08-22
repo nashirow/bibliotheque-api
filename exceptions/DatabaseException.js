@@ -1,7 +1,8 @@
 class DatabaseException{
-    constructor(error){
-        this.error = error;
+
+    constructor(msgErrors){
+        this.msgErrors = msgErrors;
     }//constructor()
-}
+}//DatabaseException
 
 module.exports = DatabaseException;

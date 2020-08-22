@@ -2,6 +2,9 @@ const DatabaseException = require('../exceptions/DatabaseException');
 const AbstractDAO = require('./AbstractDAO.js');
 const { query } = require('express');
 
+/**
+ * Cette classe contient les fonctionnalités liés aux auteurs en interaction avec la base de données
+ */
 class AuteurDAO extends AbstractDAO{
 
     constructor(){
@@ -45,11 +48,11 @@ class AuteurDAO extends AbstractDAO{
         try {
             const result = await this.con.query(sqlRequest, params);
             if(result[0].affectedRows === 0){
-                throw new DatabaseException('Impossible de mettre à jour l\'auteur en base de données');
+                return false;
             }
         } catch (error) {
             console.error(error);
-            throw new DatabaseException('Impossible de mettre à jour l\'auteur en base de données');s
+            return Promise.reject(new DatabaseException('Impossible de mettre à jour l\'auteur en base de données'));
         }
     }//updateAuthor()
 
@@ -63,8 +66,8 @@ class AuteurDAO extends AbstractDAO{
                 return false;
             }
         } catch (error) {
-            console.log(error);
-            throw new DatabaseException('Impossible de supprimer l\'auteur de la base de données');
+            console.error(error);
+            return Promise.reject(new DatabaseException('Impossible de supprimer l\'auteur de la base de données'));
         }
     }//deleteAuthor()
 }//AuteurDAO()
