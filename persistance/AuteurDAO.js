@@ -19,7 +19,7 @@ class AuteurDAO extends AbstractDAO{
                 return result[0].cpt;
             } catch (error) {
                 console.error(error);
-                throw new DatabaseException('Impossible de compter le nombre d\' auteur dans la base de donnée ');
+                return Promise.reject(new DatabaseException('Impossible de compter le nombre d\' auteur dans la base de donnée '));
             }
         }
     }//countByFirstAndLastName()
@@ -31,11 +31,11 @@ class AuteurDAO extends AbstractDAO{
         try {
             const results = await this.con.query(sqlRequest,params);
             if(results[0].affectedRows === 0 ){
-                throw new DatabaseException('Impossible d\'insérer l\'auteur en base de données');
+                return false;
             }
         } catch (error) {
             console.error(error);
-            throw new DatabaseException('Impossible d\'insérer l\'auteur en base de données');
+            return Promise.reject(new DatabaseException('Impossible d\'insérer l\'auteur en base de données'));
         }
     }//createAuthor()
 
@@ -57,8 +57,10 @@ class AuteurDAO extends AbstractDAO{
         const sqlRequest = 'DELETE FROM auteur WHERE id = ?';
         try {
             const result = await this.con.query(sqlRequest,id);
-            if(result[0].affectedRows === 0){
-                throw new DatabaseException('Impossible de supprimer l\'auteur de la base de données');
+            if(result[0].affectedRows > 0){
+                return true;
+            }else{
+                return false;
             }
         } catch (error) {
             console.log(error);
