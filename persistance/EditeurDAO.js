@@ -3,6 +3,9 @@ const DatabaseException = require('../exceptions/DatabaseException');
 const Editeur = require('../models/Editeur');
 const { query } = require('express');
 
+/**
+ * Cette classe contient les fonctionnalités liées aux éditeurs en interaction avec la base de données.
+ */
 class EditeurDAO extends AbstractDAO{
 
     constructor(){

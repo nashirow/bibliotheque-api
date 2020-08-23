@@ -1,6 +1,5 @@
 const ArgumentException = require('../exceptions/ArgumentException');
 const LivreDAO = require('../persistance/LivreDAO');
-const Livre = require('../models/Livre');
 
 /**
  * Cette classe contient toutes les fonctionnalités liées aux livres.
@@ -21,14 +20,15 @@ class LivreService{
         }
     }//isExist
 
+
+
     checkBusiness = async (livre,isUpdate) => {
         const errors = [];
-        console.log(livre);
         if(!livre){
             errors.push('Le livre est obligatoire');
         }else{
             if(isUpdate &&!livre.id){
-                errors.push('Le nom du livre est obligatoire');
+                errors.push('L\'identifiant du livre est obligatoire');
             }
             if(!livre.isbn){
                 errors.push('L\'isbn du livre est obligatoire');
@@ -42,15 +42,20 @@ class LivreService{
             if(!livre.pagesMax){
                 errors.push('Le nombre maximum de pages est obligatoire');
             }
+            if(!livre.idAuteur){
+                errors.push('L\'identifiant de l\'auteur est obligatoire');
+            }
+            if(!livre.idEditeur){
+                errors.push('L\'identifiant de l\'éditeur est obligatoire');
+            }
             try {
                 const isExist = await this.isExist(livre.titre);
                 if(!isUpdate && isExist){
                     errors.push('Le livre existe déjà en base de données');
                 }
-            } catch (error) {
-                console.error(error);
-                return Promise.reject(new ArgumentException(errors));
-            }
+                } catch (error) {
+                    console.error(error);
+                }
         }
         if(errors.length > 0){
             return Promise.reject(new ArgumentException(errors));
@@ -67,6 +72,17 @@ class LivreService{
             return Promise.reject(error);
         }
     }//createLivre()
+
+    updateLivre = async (livre) => {
+        try {
+            await this.checkBusiness(livre,true);
+            const result = await this.repositoryLivre.updateLivre(livre);
+            return result;
+        } catch (error) {
+            console.error(error);
+            return Promise.reject(error);
+        }
+    }
 }//LivreService
 
 module.exports = LivreService;

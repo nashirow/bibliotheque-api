@@ -1,7 +1,9 @@
 const AuteurDAO = require('../persistance/auteurDAO');
 const ArgumentException = require('../exceptions/ArgumentException');
 
-//Cette classe contient toutes les fonctionnalités liées à un auteur
+/**
+ * Cette classe contient toutes les fonctionnalités liées aux auteurs.
+ */
 class AuteurService{
 
     constructor(){
@@ -19,7 +21,7 @@ class AuteurService{
     }//isExist()
 
     //Cette fonction permet de vérifier que les règles métiers soient bien respectées.
-    checkBusiness = async (auteur,isUpdate) =>{
+    checkBusiness = async (auteur,isUpdate) => {
         const errors = [];
         if(!auteur){
             errors.push('Le paramètre est obligatoire');
