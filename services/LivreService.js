@@ -27,7 +27,7 @@ class LivreService{
         if(!livre){
             errors.push('Le livre est obligatoire');
         }else{
-            if(isUpdate &&!livre.id){
+            if(isUpdate && !livre.id){
                 errors.push('L\'identifiant du livre est obligatoire');
             }
             if(!livre.isbn){
@@ -50,7 +50,7 @@ class LivreService{
             }
             try {
                 const isExist = await this.isExist(livre.titre);
-                if(!isUpdate && isExist){
+                if(!isUpdate && this.isExist){
                     errors.push('Le livre existe déjà en base de données');
                 }
                 } catch (error) {

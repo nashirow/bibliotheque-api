@@ -11,13 +11,17 @@ class LivreDAO extends AbstractDAO{
     }//constructor()
 
     isExistByTitle = async (titre) =>{
-        const sqlRequest = 'SELECT COUNT (*) as cpt FROM livre WHERE titre = ?';
-        try {
-            const result = await this.con.query(sqlRequest,titre);
-            return result[0].cpt;
-        } catch (error) {
-            console.error(error);
-            return Promise.reject(new DatabaseException('Impossible de compter le nombre de livres en base de données.'));
+        if(!titre){
+            return 0;
+        }else{
+            const sqlRequest = 'SELECT COUNT (*) as cpt FROM livre WHERE titre = ?';
+            try {
+                const result = await this.con.query(sqlRequest,titre);
+                return result[0].cpt;
+            } catch (error) {
+                console.error(error);
+                return Promise.reject(new DatabaseException('Impossible de compter le nombre de livres en base de données.'));
+            }
         }
     }//isExistByTitle()
 
