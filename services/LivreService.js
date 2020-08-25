@@ -20,6 +20,16 @@ class LivreService{
         }
     }//isExist
 
+    isExistByIsbn = async (isbn) => {
+        try {
+            const result = await this.repositoryLivre.isExistByIsbn(isbn);
+            return result > 0;
+        } catch (error) {
+            console.error(error);
+            return Promise.reject(error);
+        }
+    }//isExistByIsbn()
+
 
 
     checkBusiness = async (livre,isUpdate) => {
@@ -50,7 +60,8 @@ class LivreService{
             }
             try {
                 const isExist = await this.isExist(livre.titre);
-                if(!isUpdate && this.isExist){
+                const isExistByIsbn = await this.isExistByIsbn(livre.isbn);
+                if(!isUpdate && (this.isExist && this.isExistByIsbn)){
                     errors.push('Le livre existe déjà en base de données');
                 }
                 } catch (error) {
@@ -83,6 +94,38 @@ class LivreService{
             return Promise.reject(error);
         }
     }
+
+    
+    deleteLivre = async (id) => {
+
+        try {
+            const result = await this.repositoryLivre.deleteLivre(id);
+            return result;
+        } catch (error) {
+            console.error(error);
+            return Promise.reject(error);
+        }
+    }//deleteLivre()
+
+    getAllLivres = async () => {
+        try {
+            const result = await this.repositoryLivre.getAllLivres();
+            return result;
+        } catch (error) {
+            console.error(error);
+            return Promise.reject(error);
+        }
+    }
+
+    getLivreById = async (id) => {
+        try {
+            const result = await this.repositoryLivre.getLivreById(id);
+            return result;
+        } catch (error) {
+            console.error(error);
+            return Promise.reject(error);
+        }
+    }//getLivreById()
 }//LivreService
 
 module.exports = LivreService;
